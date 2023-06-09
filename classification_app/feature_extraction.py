@@ -59,6 +59,7 @@ def get_chroma(y, sr):
     return chroma_feature
 
 def extract_features(file):
+    # extract features from 5 samples (20 seconds each)
     n_samples = 5
 
     feature_labels = ['Tempo', 'STE_mean', 'STE_std', 'RMS_mean', 'RMS_std', 'ZCR_mean', 'ZCR_std',

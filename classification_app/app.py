@@ -8,9 +8,25 @@ import numpy as np
 
 from feature_extraction import extract_features
 
+# load the scaler and the models
+scaler = pickle.load(open('pickles/scaler.pkl', 'rb'))
+
+model_files = {
+    'Logistic Regression': 'pickles/logistic_regression_model.pkl',
+    'Decision Tree': 'pickles/decision_tree_model.pkl',
+    'Random Forest': 'pickles/random_forest_model.pkl'
+}
+models = {}
+for model_name, model_file in model_files.items():
+    model = pickle.load(open(model_file, 'rb'))
+    models[model_name] = model
+
 def classify_file():
     # get file path chosen by the user
     file_path = filedialog.askopenfilename()
+    label_result.config(text="Analysing the uploaded file...")
+    label_result.update_idletasks()
+
     # validate the file format
     valid_extensions = ['.mp3', '.wav']
     _, file_extension = os.path.splitext(file_path)
@@ -29,8 +45,7 @@ def classify_file():
     # predict the genre using the model chosen by the user
     selected_model = model_var.get()
     if selected_model in models:
-        model_file = models[selected_model]
-        model = pickle.load(open(model_file, 'rb'))
+        model = models[selected_model]
         predicted_labels = model.predict(scaled_data)
     else:
         predicted_labels = []
@@ -48,37 +63,29 @@ def classify_file():
 # main window
 window = tk.Tk()
 window.title("Music Genre Classification App")
+window.geometry("400x200")
+window.resizable(False, False)
 
 # app description label
 label_description = tk.Label(window, text="Music genre classification app, please upload an .mp3 or .wav file.")
-label_description.pack()
-
-# avaliable models
-models = {
-    'Logistic Regression': 'pickles/logistic_regression_model.pkl',
-    'Decision Tree': 'pickles/decision_tree_model.pkl',
-    'Random Forest': 'pickles/random_forest_model.pkl'
-}
+label_description.grid(row=0, column=0, padx=10, pady=10)
 
 # dropdown menu with models to choose
 model_var = tk.StringVar()
 model_var.set('Logistic Regression')
 
 label_model = tk.Label(window, text="Choose Model:")
-label_model.pack()
+label_model.grid(row=1, column=0, padx=10)
 
-dropdown_model = Combobox(window, textvariable=model_var, values=list(models.keys()))
-dropdown_model.pack()
-
-# load the scaler
-scaler = pickle.load(open('pickles/scaler.pkl', 'rb'))
+dropdown_model = tk.OptionMenu(window, model_var, *models.keys())
+dropdown_model.grid(row=2, column=0, padx=10)
 
 # file upload button
 upload_button = tk.Button(window, text="Upload File", command=classify_file)
-upload_button.pack()
+upload_button.grid(row=3, column=0, padx=10, pady=20)
 
 # prediction label
 label_result = tk.Label(window, text="")
-label_result.pack()
+label_result.grid(row=4, column=0, padx=10)
 
 window.mainloop()
