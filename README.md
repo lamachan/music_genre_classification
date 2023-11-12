@@ -4,6 +4,7 @@ Projekt *"Rozpoznawanie gatunków muzycznych z wykorzystaniem technik uczenia ma
 
 Celem projektu jest stworzenie aplikacji dokonującej klasyfikacji gatunków utworów muzycznych. W ramach projektu należy stworzyć własną bazę utworów, dokonać ekstrakcji cech oraz na ich podstawie wytrenować i wdrożyć model uczenia maszynowego.
 ## Działanie aplikacji
+![alt text](https://github.com/lamachan/music_genre_classification/blob/main/classification_app/classification_app_gui.png?raw=true)
 ### Front-end
 Zaimplementowano prostą aplikację okienkową umożliwiającą klasyfikację utworu wgranego przez użytkownika jako plik dźwiękowy. Możliwe jest wgranie pliku w formacie *.mp3* lub *.wav*. Przed wgraniem pliku należy wybrać 1 z 3 dostępnych modeli z listy rozwijanej (`Logistic Regression`, `Decision Tree` lub `Random Forest`). Po ok. 6 sekundach wyświetlane jest przewidywanie gatunku.
 ### Back-end
